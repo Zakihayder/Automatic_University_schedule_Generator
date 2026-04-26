@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-
+import numpy as np
 def convert_excel_to_clean_csv(excel_path):
     """
     Reads the university Excel file, cleans merged cells, 
