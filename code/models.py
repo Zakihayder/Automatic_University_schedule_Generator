@@ -8,10 +8,15 @@ class CourseSection:
         self.section = str(section)
         self.instructor = str(instructor)
         self.category = category  # e.g., 'Computing Theory', 'Lab', 'MG', 'S&H'
+        self.preferred_slots = []
         
         # Domain Adaptation: Credit Hour Logic
         # 1 credit = Lab (2:45), 2 credit = 1 session (1:45), 3 credit = 2 sessions (1:20)
-        if self.ch == 1:
+        if "FYP" in self.name.upper():
+            self.sessions_per_week = 0
+            self.duration_minutes = 0
+            self.is_lab = False
+        elif self.ch == 1:
             self.sessions_per_week = 1
             self.duration_minutes = 165
             self.is_lab = True

@@ -5,10 +5,15 @@
 ---
 
 ## 🚀 Key Features
-* **Smart Constraint Satisfaction:** Automatically avoids instructor, room, and section overlaps.
-* **Domain-Specific Lab Logic:** Distinguishes between Computing Labs, English Labs, and the B-Digital Lab.
+* **Smart Constraint Satisfaction:** Avoids instructor, room, and section overlaps.
+* **Domain-Specific Lab Logic:** Distinguishes Computing Labs, English Labs, and the B-Digital Lab.
 * **Hybrid Time-Slot Management:** Handles overlapping 80-minute theory slots and 165-minute lab slots.
-* **Batch-Wise Visualization:** Professional grid layout with unique color coding for BCS, BSE, BAI, BDS, and BCY departments.
+* **Strict Credit-Hour Integrity:** 1-CH labs and 2-CH theory appear once per week; 3-CH theory appears twice.
+* **Real-Time Availability Spotlight:** Find free rooms by day/slot with capacity filtering.
+* **Smart-Booker:** Validates mutual free slots for a teacher and section.
+* **Student Path View:** Shows a single course timetable per section.
+* **Substitution Finder:** Suggests free, qualified instructors.
+* **Utilization Analytics:** Peak hours and under-utilized rooms.
 
 ---
 
@@ -30,6 +35,11 @@ Fitness = 1/(1 + H_c)
 * **Room Conflict:** Two different courses assigned to the same room at the same time.
 * **Section Conflict:** A student batch (e.g., BSE-2B) having two different classes at the same time.
 
+**Soft Penalties (S_c) include:**
+* **Room Persistence:** Prefer same room for consecutive classes.
+* **Teacher Preference:** Honor preferred slots when provided.
+* **Load Balancing:** Avoid more than 3 consecutive classes.
+
 
 
 ### 3. Evolutionary Operators
@@ -48,6 +58,15 @@ The AI manages the following physical resources:
 
 ---
 
+## 📁 Project Structure
+```
+code/           # Application source code
+data/           # CSV inputs and Excel source data
+data/images/    # UI assets (Logo.jpg)
+```
+
+---
+
 
 ## 🛠️ Execution Instructions & Dependencies
 
@@ -62,18 +81,37 @@ pip install streamlit pandas openpyxl
 
 ```
 ## Step-by-Step Execution
-Prepare Data: Place your Excel file (Tentative list of Courses.xlsx) in the project root.
+Prepare Data: Place your Excel file in the data folder.
 
 ## Data Cleaning: Run the preprocessing script to clean merged cells and generate theory/lab CSVs:
 
 ```bash
-python prepare_data.py
+python code/parse_excel_to_csv.py
 ```
 
 Launch Interface: Run the Streamlit application:
 
 ```bash
-streamlit run main.py
+streamlit run code/main.py
 ```
 
-Generate: Click "Load Data," adjust the "GA Generations" slider, and press "🚀 Start AI Evolution."
+Generate: Click "Load Data," adjust the "GA Generations" slider, and press "Generate Time-Table"
+
+---
+
+## 🧪 UI Modules
+* **By Day:** Single-day room/lab grid.
+* **By Section:** Section-focused timetable.
+* **Performance:** Validation report, accuracy, and fitness curve.
+* **Availability:** Room free/busy spotlight with capacity filter.
+* **Smart-Booker:** Mutual free slots between teacher and section.
+* **Student Path:** Course timetable lookup.
+* **Substitution:** Substitute instructor suggestions.
+* **Analytics:** Room utilization and peak hours.
+
+---
+
+## ⚙️ Notes and Tips
+* If a teacher is missing in CSV, a placeholder instructor is assigned so the class still schedules.
+* Results can vary by run; increase **Population Size** and **Restart Attempts** for higher quality.
+* If you change CSV column names, update the loader in `code/data_loader.py`.

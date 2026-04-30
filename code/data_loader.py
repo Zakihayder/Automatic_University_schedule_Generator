@@ -13,23 +13,33 @@ def process_sheet(file_path, sheet_name, category):
         # Standardizing column names based on your sheet description
         # We handle cases where 'Course Instructor' might have empty rows (forward fill)
         df['Code'] = df['Code'].ffill()
+        df['CHs'] = pd.to_numeric(df['CHs'], errors='coerce')
         df['CHs'] = df['CHs'].ffill()
+        df['Section'] = df['Section'].ffill()
         
         course_list = []
+        seen = set()
         
         for _, row in df.iterrows():
-            # Skip rows where instructor is missing or placeholder
-            if pd.isna(row['Course Instructor']) or str(row['Course Instructor']).strip() == "":
+            if pd.isna(row.get('CHs')) or str(row.get('Section', '')).strip() == "":
                 continue
-            
+            instructor_raw = row.get('Course Instructor', "")
+            if pd.isna(instructor_raw) or str(instructor_raw).strip() == "":
+                # Assign a unique placeholder so these classes are still scheduled
+                instructor_raw = f"TBA-{row.get('Code', 'NA')}-{row.get('Section', 'NA')}"
+
             section_obj = CourseSection(
                 code=row['Code'],
                 name=row.get('Course', 'N/A'),
                 ch=row['CHs'],
                 section=row['Section'],
-                instructor=row['Course Instructor'],
+                instructor=instructor_raw,
                 category=category
             )
+            key = (section_obj.code, section_obj.section, section_obj.name, section_obj.ch)
+            if key in seen:
+                continue
+            seen.add(key)
             course_list.append(section_obj)
             
         return course_list
@@ -51,10 +61,10 @@ def get_all_courses(file_map):
 if __name__ == "__main__":
     # Update these paths to your local file names
     paths = {
-        "Theory": "Computing-Theory.csv",
-        "Labs": "Computing-Labs.csv",
-        "MG": "MG.csv",
-        "S&H": "S&H.csv"
+        "Theory": "data/Computing-Theory.csv",
+        "Labs": "data/Computing-Labs.csv",
+        "MG": "data/MG.csv",
+        "S&H": "data/S&H.csv"
     }
     
     full_course_load = get_all_courses(paths)

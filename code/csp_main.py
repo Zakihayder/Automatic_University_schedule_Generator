@@ -14,7 +14,7 @@ st.set_page_config(page_title="IntelliSched CSP", layout="wide")
 st.title("🧩 CSP University Timetable Generator")
 
 if st.sidebar.button("Load Data"):
-    paths = {"Theory": "Computing-Theory.csv", "Labs": "Computing-Labs.csv", "MG": "MG.csv", "S&H": "S&H.csv"}
+    paths = {"Theory": "data/Computing-Theory.csv", "Labs": "data/Computing-Labs.csv", "MG": "data/MG.csv", "S&H": "data/S&H.csv"}
     st.session_state['courses'] = get_all_courses(paths)
     st.sidebar.success("Data Loaded!")
 

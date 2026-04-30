@@ -17,10 +17,10 @@ def convert_excel_to_clean_csv(excel_path):
     # Mapping of Sheet Names to the Category they represent
     # Update these keys if your sheet names are slightly different
     sheet_map = {
-        'Computing-Theory': 'Computing-Theory.csv',
-        'Computing-Labs': 'Computing-Labs.csv',
-        'MG': 'MG.csv',
-        'S&H': 'S&H.csv'
+        'Computing-Theory': os.path.join('data', 'Computing-Theory.csv'),
+        'Computing-Labs': os.path.join('data', 'Computing-Labs.csv'),
+        'MG': os.path.join('data', 'MG.csv'),
+        'S&H': os.path.join('data', 'S&H.csv')
     }
 
     for sheet, output_name in sheet_map.items():
@@ -45,6 +45,5 @@ def convert_excel_to_clean_csv(excel_path):
             print(f"⚠️ Warning: Sheet '{sheet}' not found in Excel file.")
 
 if __name__ == "__main__":
-    # CHANGE THIS to your actual filename
-    MY_FILE = "Tentative list of Courses, FSC, FAST-NUCES, Islamabad, Spring-2026.xlsx"
+    MY_FILE = os.path.join("data", "Tentative list of Courses, FSC, FAST-NUCES, Islamabad, Spring-2026.xlsx")
     convert_excel_to_clean_csv(MY_FILE)
