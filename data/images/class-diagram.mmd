@@ -1,0 +1,79 @@
+classDiagram
+    class CourseSection {
+        +str code
+        +str name
+        +int ch
+        +str section
+        +str instructor
+        +str category
+        +List preferred_slots
+        +int sessions_per_week
+        +int duration_minutes
+        +bool is_lab
+        +__repr__() str
+    }
+
+    class ConstraintEvaluator {
+        +float whard
+        +float wsoft
+        +List theory_slots
+        +List lab_slots
+        +Dict mirror_days
+        +evaluate(schedule) dict
+        +is_valid(schedule) bool
+        -blocked_slots(slot, is_lab) List
+        -get_room_geo(room_name) Tuple
+        -is_fyp(course) bool
+    }
+
+    class GeneticScheduler {
+        +List course_list
+        +List rooms
+        +List comp_labs
+        +List digital_lab
+        +List english_labs
+        +int pop_size
+        +evolve(generations, stagnation_limit) List
+        +mutate(schedule) List
+        +calculate_fitness(schedule) float
+        -generate_random_schedule() List
+        -get_correct_room_pool(course) List
+        -is_fyp(course) bool
+    }
+
+    class CSPScheduler {
+        +solve() List
+        -backtrack(assignment, course_index, session_index) List
+        -is_consistent(assignment, current_entry) bool
+        -get_correct_room_pool(course) List
+    }
+
+    class SAScheduler {
+        +solve(iterations) Tuple
+        -calculate_conflicts(schedule) int
+        -generate_neighbor(schedule) List
+        -get_correct_room_pool(course) List
+    }
+
+    class DataLoader {
+        +process_sheet(file_path, sheet_name, category) List
+        +get_all_courses(file_map) List
+    }
+
+    class StreamlitUI {
+        +load_data()
+        +generate_schedule()
+        +render_views()
+    }
+
+    StreamlitUI ..> DataLoader : loads
+    StreamlitUI ..> GeneticScheduler : uses
+    StreamlitUI ..> ConstraintEvaluator : evaluates
+    GeneticScheduler --> ConstraintEvaluator : composition
+    DataLoader --> CourseSection : creates
+    GeneticScheduler ..> CourseSection : schedules
+    CSPScheduler ..> CourseSection : schedules
+    SAScheduler ..> CourseSection : schedules
+
+    note for StreamlitUI "Scheduler selection is a
+    strategy at runtime (GA/CSP/SA)."

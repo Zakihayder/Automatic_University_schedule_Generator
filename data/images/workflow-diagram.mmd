@@ -1,0 +1,12 @@
+flowchart TD
+    A[Start: Open IntelliSched] --> B[Load CSV Data]
+    B --> C[Clean & Normalize Data]
+    C --> D[Initialize Schedule Population]
+    D --> E[Evaluate Fitness (Hard/Soft Constraints)]
+    E --> F{Conflicts Acceptable?}
+    F -- No --> G[Evolve (Selection, Crossover, Mutation)]
+    G --> E
+    F -- Yes --> H[Finalize Best Schedule]
+    H --> I[Validate & Generate Report]
+    I --> J[Render Views (Day/Section/Performance)]
+    J --> K[End: Export/Present Results]

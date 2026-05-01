@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor User
+    participant UI as Streamlit UI
+    participant DL as DataLoader
+    participant GA as GeneticScheduler
+    participant CE as ConstraintEvaluator
+
+    User->>UI: Click Load Data
+    UI->>DL: get_all_courses(file_map)
+    DL-->>UI: course_list
+
+    User->>UI: Click Generate Schedule
+    UI->>GA: evolve(generations, stagnation_limit)
+    GA->>CE: evaluate(schedule) [fitness]
+    CE-->>GA: hard_conflicts, soft_penalty
+    GA-->>UI: best_schedule
+    UI->>CE: evaluate(best_schedule)
+    CE-->>UI: evaluation report
+    UI-->>User: Render grids + Performance tab

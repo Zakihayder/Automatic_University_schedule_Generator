@@ -1,0 +1,34 @@
+flowchart LR
+    subgraph UI[Presentation Layer]
+        Streamlit[Streamlit UI]
+    end
+
+    subgraph App[Application Layer]
+        Scheduler[Scheduling Core]
+        Features[Feature Modules]
+    end
+
+    subgraph Domain[Domain Layer]
+        Models[CourseSection Model]
+        Constraints[Constraint Evaluator]
+    end
+
+    subgraph Data[Data Layer]
+        CSV[CSV Inputs]
+    end
+
+    subgraph External[External Libraries]
+        Pandas[Pandas]
+        StreamlitLib[Streamlit]
+    end
+
+    Streamlit --> Scheduler
+    Streamlit --> Features
+    Scheduler --> Constraints
+    Scheduler --> Models
+    Features --> Models
+    Scheduler --> CSV
+    Constraints --> CSV
+
+    CSV --> Pandas
+    Streamlit --> StreamlitLib

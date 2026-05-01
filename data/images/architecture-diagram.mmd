@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph Presentation
+        UI[Streamlit UI]
+    end
+
+    subgraph Application
+        Engine[GA/CSP/SA Scheduling Engine]
+        Repair[Normalization + Conflict Repair]
+    end
+
+    subgraph Domain
+        Model[CourseSection]
+        Rules[Constraint Evaluator]
+    end
+
+    subgraph Data
+        CSVs[CSV Files]
+        Assets[Images/Logo]
+    end
+
+    UI --> Engine
+    UI --> Repair
+    Engine --> Rules
+    Engine --> Model
+    Repair --> Rules
+    Rules --> Model
+    Engine --> CSVs
+    UI --> Assets
