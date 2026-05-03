@@ -58,7 +58,7 @@ The AI manages the following physical resources:
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 ```
 code/           # Application source code
 data/           # CSV inputs and Excel source data
