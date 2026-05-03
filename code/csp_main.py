@@ -1,3 +1,4 @@
+# Importing Libraries
 import streamlit as st
 import pandas as pd
 from data_loader import get_all_courses
