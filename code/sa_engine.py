@@ -105,7 +105,7 @@ class SAScheduler:
             # 4. Acceptance Probability
             energy_diff = neighbor_energy - current_energy
             
-            # If neighbor is better, always accept. 
+            # If neighbor is better, always accept . 
             # If worse, accept with a probability that decreases as temperature cools.
             if energy_diff < 0 or random.random() < math.exp(-energy_diff / self.temp):
                 current_schedule = neighbor
